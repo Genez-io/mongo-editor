@@ -18,13 +18,13 @@ frontend:
     path: client
     publish: dist
     scripts:
-        build: npm run build:prod
+        build: npm run build
         deploy:
             - npm install
         start:
             - npm install --silent
             - npm run start --silent
-    subdomain: aqua-worrying-fly
-name: mongo-editor
+    subdomain: mongo-dev
+name: mongo-dev
 region: us-east-1
 yamlVersion: 2

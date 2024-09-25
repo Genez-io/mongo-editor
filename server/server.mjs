@@ -17,9 +17,6 @@ app.use(bodyParser.json({ limit: process.env.BODY_SIZE || '50mb' }));
 // api routing
 app.use('/databases', router);
 
-// connect to database
-DataBase.InitDB(app);
-
 // error handler
 app.use((err, req, res, next) => {
   console.log(err);
@@ -29,8 +26,6 @@ app.use((err, req, res, next) => {
   };
   return res.status(500).send(error);
 });
-
-DataBase.InitDB();
 
 export const handler = serverless(app);
 

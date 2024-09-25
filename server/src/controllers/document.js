@@ -3,10 +3,12 @@ import { EJSON } from 'bson';
 import Model from '../models/index.js';
 const ObjectID = mongodb.ObjectID;
 
-const getModel = (req) => {
+const getModel = async (req) => {
   const dbName = req.params.dbName;
   const collectionName = req.params.collectionName;
-  return new Model(dbName, collectionName);
+  const model = new Model();
+  await model.init(req, dbName, collectionName);
+  return model;
 };
 
 const sendResponse = (dbOperation, req, res, next) => {
@@ -38,16 +40,16 @@ function middleware(req, res, next) {
   }
 }
 
-function find(req, res, next) {
-  const model = getModel(req);
+async function find(req, res, next) {
+  const model = await getModel(req);
   const filter = req.body || {};
   const options = req.query || {};
   const dbOperation = model.find(filter, options).toArray();
   sendResponse(dbOperation, req, res, next);
 }
 
-function findOne(req, res, next) {
-  const model = getModel(req);
+async function findOne(req, res, next) {
+  const model = await getModel(req);
   const documentId = req.documentId;
   const query = documentId ? {_id: documentId} : {};
   const dbOperation = model.findOne(query);
@@ -61,7 +63,7 @@ function findOne(req, res, next) {
 //   sendResponse(dbOperation, req, res, next);
 // }
 
-function bulkWrite(req, res, next) {
+async function bulkWrite(req, res, next) {
   const body = Array.isArray(req.body) ? req.body : [req.body];
   const operations = [];
   body.forEach((document) => {
@@ -79,7 +81,7 @@ function bulkWrite(req, res, next) {
       },
     });
   });
-  const model = getModel(req);
+  const model = await getModel(req);
   const dbOperation = model.bulkWrite(operations);
   sendResponse(dbOperation, req, res, next);
 }
@@ -91,15 +93,15 @@ function bulkWrite(req, res, next) {
 //   sendResponse(dbOperation, req, res, next);
 // }
 
-function replaceOne(req, res, next) {
-  const model = getModel(req);
+async function replaceOne(req, res, next) {
+  const model = await getModel(req);
   const documentId = req.documentId;
   const dbOperation = model.replaceOne({_id: documentId}, req.body);
   sendResponse(dbOperation, req, res, next);
 }
 
-function deleteOne(req, res, next) {
-  const model = getModel(req);
+async function deleteOne(req, res, next) {
+  const model = await getModel(req);
   const documentId = req.documentId;
   const dbOperation = model.deleteOne({_id: documentId});
   sendResponse(dbOperation, req, res, next);
@@ -108,7 +110,7 @@ function deleteOne(req, res, next) {
 const filter = async (req, res, next) => {
   let query = {};
   try {
-    const model = getModel(req);
+    const model = await getModel(req);
     query = req.body || {};
     const options = req.query || {};
     const skip = Number(options.skip) || 0;
@@ -133,14 +135,14 @@ const filter = async (req, res, next) => {
   }
 }
 
-function stats(req, res, next) {
-  const model = getModel(req);
+async function stats(req, res, next) {
+  const model = await getModel(req);
   const dbOperation = model.stats();
   sendResponse(dbOperation, req, res, next);
 }
 
-function count(req, res, next) {
-  const model = getModel(req);
+async function count(req, res, next) {
+  const model = await getModel(req);
   const query = req.body || {};
   const options = req.query || {};
   const dbOperation = model.countDocuments(query, options);
@@ -154,8 +156,8 @@ function count(req, res, next) {
     .catch((err) => res.status(400).send(err.toString()));
 }
 
-function aggregate(req, res, next) {
-  const model = getModel(req);
+async function aggregate(req, res, next) {
+  const model = await getModel(req);
   const query = req.body || [];
   const dbOperation = model.aggregate(query).toArray();
   sendResponse(dbOperation, req, res, next);

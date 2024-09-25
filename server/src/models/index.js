@@ -1,8 +1,12 @@
 import dataAccessAdapter from '../db/dataAccessAdapter.js';
 
 class Model {
-  constructor(dbName, collectionName) {
-    this.collection = dataAccessAdapter.ConnectToCollection(
+  constructor() {
+  }
+
+  async init(req, dbName, collectionName) {
+    this.collection = await dataAccessAdapter.ConnectToCollection(
+      req,
       dbName,
       collectionName
     );

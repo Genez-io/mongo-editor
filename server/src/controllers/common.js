@@ -1,12 +1,23 @@
 import dataAccessAdapter from '../db/dataAccessAdapter.js';
 
-function listDatabases(req, res, next) {
-  const adminDB = dataAccessAdapter.ConnectToDb('test').admin();
+async function listDatabases(req, res, next) {
+  try {
+    const adminDB = (await dataAccessAdapter.ConnectToDb(req, 'test')).admin();
+  } catch (error) {  
+    res.status(400).send("Error connecting to the database");  
+    return next();
+  }
   adminDB.listDatabases({})
     .then(data => {
       if (!req.query.includeCollections) return res.send(data);
-      const promises = data.databases.map(db => new Promise((resolve, reject) => {
-        const database = dataAccessAdapter.ConnectToDb(db.name);
+      const promises = data.databases.map(db => new Promise(async (resolve, reject) => {
+        try {
+          const database = await dataAccessAdapter.ConnectToDb(req, db.name);
+        } catch (error) {    
+          res.status(400).send("Error connecting to the database");  
+          return next();
+        }
+      
         database.listCollections().toArray()
           .then(collections => {
             collections = collections.filter(collection => !collection.name.startsWith('system.'));
@@ -29,9 +40,15 @@ function listDatabases(req, res, next) {
     .catch(next);
 }
 
-function listCollections(req, res, next) {
+async function listCollections(req, res, next) {
   const dbName = req.params.dbName;
-  const db = dataAccessAdapter.ConnectToDb(dbName);
+  try {
+    const db = await dataAccessAdapter.ConnectToDb(req, dbName);
+  } catch (error) {    
+    res.status(400).send("Error connecting to the database");  
+    return next();
+  }
+
   db.listCollections().toArray()
     .then((collections) => {
       collections = collections.filter(collection => !collection.name.startsWith('system.'));
@@ -52,19 +69,31 @@ function listCollections(req, res, next) {
     .catch(next);
 }
 
-function createCollection(req, res, next) {
+async function createCollection(req, res, next) {
   const dbName = req.body.database || req.params.dbName;
   const collectionName = req.body.collection;
-  const db = dataAccessAdapter.ConnectToDb(dbName);
+  try {
+    const db = await dataAccessAdapter.ConnectToDb(req, dbName);
+  } catch (error) {   
+    res.status(400).send("Error connecting to the database");  
+    return next(); 
+  }
+
   db.createCollection(collectionName)
     .then(() => res.send({ message: `A new collection: ${collectionName} has been added to database: ${dbName}` }))
     .catch(next);
 }
 
-function dropCollection(req, res, next) {
+async function dropCollection(req, res, next) {
   const dbName = req.body.database;
   const collectionName = req.body.collection;
-  const db = dataAccessAdapter.ConnectToDb(dbName);
+  try {
+    const db = await dataAccessAdapter.ConnectToDb(req, dbName);
+  } catch (error) {    
+    res.status(400).send("Error connecting to the database");  
+    return next();
+  }
+
   db.collection(collectionName).drop()
     .then(() => res.send({ message: 'success' }))
     .catch(next);

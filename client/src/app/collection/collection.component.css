@@ -1,0 +1,143 @@
+.container {
+  padding: 8px 10px;
+  overflow: auto;
+  height: calc(100vh - 140px);
+  background: #f5f5f5;
+}
+.document {
+  display: grid;
+  grid-template-columns: 9fr 3fr;
+  background-color: #ffffff;
+  padding: 15px 8px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.document-editor {
+  height: calc(100% - 50px) !important;
+}
+.right [nz-button] {
+  margin: 0px 4px !important;
+  height: 25px;
+  width: 25px;
+}
+.document .right [nz-button] {
+  visibility: hidden;
+}
+.document:hover .right [nz-button],
+.document:active .right [nz-button] {
+  visibility: visible;
+  transition-delay: 300ms;
+}
+.query {
+  padding: 0px 10px;
+}
+.query [nz-input] {
+  background: whitesmoke;
+}
+.help {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 5px;
+}
+.tab-content {
+  grid-template-rows: auto;
+}
+.meta {
+  list-style-type: none;
+  display: inline-flex;
+  padding: 0;
+  margin: 0px;
+}
+.meta li {
+  padding: 0px 15px;
+  vertical-align: middle;
+  line-height: 30px;
+}
+.bar {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+}
+.btngroup {
+  padding: 0px 10px;
+}
+.loader {
+  top: 35%;
+  left: 40%;
+  position: absolute;
+}
+.footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  border-top: 1px solid rgb(232, 232, 232);
+  padding: 10px 16px;
+  text-align: right;
+  left: 0px;
+  background: #fff;
+}
+
+.pagination {
+  padding: 5px 15px;
+  border-bottom: 3px solid #e5e5e5;
+}
+
+.left-child,
+.right-child {
+  display: inline-block;
+}
+
+.right-child {
+  text-align: right;
+  float: right;
+}
+
+.attributes {
+  margin-top: 10px;
+  height: 225px;
+  overflow: auto;
+}
+
+.upload {
+  margin-top: 10px;;
+}
+
+.upload:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.copy {
+  position: relative;
+  display: inline-block;
+  height: 0px;
+}
+
+.copy-as {
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 0px;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  box-shadow: 0px 5px 8px 0px rgba(0,0,0,0.3);
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: #fff;
+  z-index: 1000;
+}
+
+.copy:hover .copy-as {
+  display: block;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.copy-as li {
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.copy-as li:hover {
+  background-color: rgba(24,144,255, 0.2);
+  overflow: hidden;
+}

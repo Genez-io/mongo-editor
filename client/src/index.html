@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MongoDB Editor</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      window.addEventListener('message', (event) => {
+        const data = event.data;
+        if (data && data.token) {
+          localStorage.setItem('token', data.token);
+        }
+      });
+
+      if (window.opener) {
+        window.opener.postMessage('ready', '*');
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

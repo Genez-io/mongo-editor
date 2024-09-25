@@ -1,6 +1,6 @@
 backend:
     functions:
-        - entry: app.mjs
+        - entry: server.mjs
           handler: handler
           name: express
           path: ./
@@ -14,16 +14,17 @@ backend:
         local: npm install
 frontend:
     environment:
-        VITE_API_URL: ${{ backend.functions.express.url }}
+        API_URL: ${{ backend.functions.express.url }}
     path: client
     publish: dist
     scripts:
-        build: npm run build
+        build: npm run build:prod
         deploy:
             - npm install
         start:
             - npm install --silent
-            - npm run dev --silent
+            - npm run start --silent
+    subdomain: aqua-worrying-fly
 name: mongo-editor
 region: us-east-1
 yamlVersion: 2

@@ -11,7 +11,6 @@ class DataBase {
     if (this.connections[authToken][dbId])
       return this.connections[authToken][dbId];
 
-
     const requestUrl = 'https://'+process.env.API_URL+'/databases/' + dbId;
     const requestHeaders = {
       'Authorization': 'Bearer ' + authToken,
@@ -29,6 +28,7 @@ class DataBase {
     const data = await response.json();
 
     this.connections[authToken][dbId] = await MongoClient.connect(data.connectionUrl);
+    this.connections[authToken][dbId].dbName = data.connectionUrl.replace(/^.*\//, '');
 
     return this.connections[authToken][dbId];
   }
@@ -44,8 +44,10 @@ class DataBase {
       throw new Error('No database name provided');
     }
     const dbConn = await this.GetDB(authToken, dbId);
+    const dbConnName = dbConn.db(dbName);
+    dbConnName.dbName = dbConn.dbName;
 
-    return dbConn.db(dbName);
+    return dbConnName;
   }
 
   static async ConnectToCollection(req, dbName, collectionName) {

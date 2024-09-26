@@ -43,6 +43,15 @@
             "scripts": []
           },
           "configurations": {
+            "hmr": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "hmr": true
+            },
             "production": {
               "fileReplacements": [
                 {

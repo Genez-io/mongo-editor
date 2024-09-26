@@ -43,13 +43,20 @@
   .menu,
   .menu li ul {
     padding: 0;
-    color: #f5f5f5 !important;
+    color: #c5cfcd !important;
   }
   .menu .nav_item:hover {
-    background-color: #607d8b;
+    background-color: #16181d;
   }
   .menu li {
     list-style-type: none !important;
+  }
+  .menu > li {
+    padding: 0 10px 0 25px;
+    font-size: 11px;
+  }
+  .menu > li ul {
+    font-size: 15px;
   }
   .nav_item {
     padding: 2px 18px;
@@ -65,7 +72,15 @@
     box-shadow: inset 0 -0.6em 0 -0.35em rgba(0, 0, 0, 0.17);
   }
   .menu li ul {
-    display: none;
+    display: block;
+  }
+  .menu button {
+    margin-top: 5px;
+    color:#335c67;
+    font-size: 14px;
+  }
+  .menu button:hover {
+    color:#607d8b;
   }
   .open + ul {
     display: block !important;
@@ -77,7 +92,7 @@
     left: -5px;
   }
   .collection_item {
-    padding-left: 28px;
+    padding: 3px;
   }
   .collection_item a {
     color: #c4c5c5 !important;
@@ -89,9 +104,6 @@
     -moz-transform: rotate(40deg);
     -o-transform: rotate(40deg);
     transform: rotate(90deg);
-  }
-  .side_top {
-    height: 100px;
   }
   .side_explorer {
     max-height: 500px;
@@ -108,21 +120,18 @@
     padding: 0px 2px;
   }
   
-  /* App title */
-  .title {
-    padding: 15px 5px;
+  .menu h2 {
+    padding: 15px 5px 0 0;
+    color: #c5cfcd;
+    margin-left: 0;
   }
-  .title h2:hover {
-    cursor: pointer;
+
+  .menu .collections {
+    margin: 16px 0 8px 0;
+    font-size: 16px;
+    border-bottom: 1px solid #c5cfcd;
   }
-  .title h2 {
-    /* font-style: italic; */
-    font-family: none;
-    /* text-align: center; */
-    color: #c4c4c4;
-    /* text-decoration: underline; */
-    /* text-decoration-thickness: 200; */
-  }
+
   .dashboard-stats {
     padding: 15px;
     padding-bottom: 0px;
